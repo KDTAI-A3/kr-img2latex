@@ -21,6 +21,3 @@ $ ./download.sh
 $ python ./unzip.py
 $ cd ..
 ```
-
-## FAQ
-전현욱(gusdnr122997@gmail.com)
