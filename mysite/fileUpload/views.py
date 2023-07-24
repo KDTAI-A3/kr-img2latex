@@ -1,0 +1,34 @@
+from django.shortcuts import render
+from django.views import View
+from django.views.generic.detail import SingleObjectMixin, DetailView
+from django.views.generic.edit import FormView
+from django.forms import ModelForm
+from django.urls import reverse_lazy, reverse
+from .forms import ImageModelForm
+from .models import ImageModel
+
+
+# Create your views here.
+
+class DocumentCreateView(FormView):
+    template_name = 'fileUpload/Upload.html'
+    form_class = ImageModelForm
+    fid = None
+
+    def get_success_url(self):
+        return reverse('fileUpload:show', kwargs={'fid': self.fid})
+
+    def form_valid(self, form):
+        if self.request.FILES:
+            form.instance.attached = self.request.FILES['files']
+
+        item = form.save()
+        self.fid = item.pk
+        return super().form_valid(form)
+
+
+class DocumentShowView(DetailView):
+    model = ImageModel
+    template_name = "fileUpload/show.html"
+    pk_url_kwarg = "fid"
+    context_object_name = 'fileImg'
