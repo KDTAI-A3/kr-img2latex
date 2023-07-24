@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin, DetailView
@@ -22,8 +23,15 @@ class DocumentCreateView(FormView):
         if self.request.FILES:
             form.instance.attached = self.request.FILES['files']
 
-        item = form.save()
+        item = form.save(commit=False)
+        item.desc = '모델 해석 진행중'
+        item.save()
         self.fid = item.pk
+
+        response = requests.post('http://localhost:5000/predict', files = {'file':self.request.FILES['files']})
+        if response.status_code == 200:
+            item.desc = response.content
+            item.save()
         return super().form_valid(form)
 
 
