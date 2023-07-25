@@ -2,16 +2,17 @@ import requests
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormView
 from django.forms import ModelForm
 from django.urls import reverse_lazy, reverse
 from .forms import ImageModelForm
 from .models import ImageModel
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-class DocumentCreateView(FormView):
+class DocumentCreateView(LoginRequiredMixin, FormView):
     template_name = 'fileUpload/Upload.html'
     form_class = ImageModelForm
     fid = None
@@ -25,6 +26,7 @@ class DocumentCreateView(FormView):
 
         item = form.save(commit=False)
         item.desc = '모델 해석 진행중'
+        item.author = self.request.user
         #item.save()
         self.fid = item.pk
 

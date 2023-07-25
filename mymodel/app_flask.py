@@ -13,7 +13,6 @@ import json
 
 app = Flask(__name__)
 
-# assign model handler as global variable [2 LINES]
 is_cuda = torch.cuda.is_available()
 device = torch.device('cuda' if is_cuda else 'cpu')
 
@@ -22,11 +21,7 @@ print('Current cuda device is', device)
 
 
 model = efficientnet_v2_s(weights='IMAGENET1K_V1')
-transforms_val = transforms.Compose([
-    transforms.Resize((64, 64)),
-    transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-])
+
 with open('imagenet_class_index.json') as img_idxs:
     data_class_file=json.load(img_idxs)
 
@@ -44,9 +39,7 @@ def predict():
         image = np.array(cv2.imread(fn),dtype=float)
         print(image.shape)
         image =np.expand_dims(image.transpose(2,0,1),axis=0)
-        #image = cv2.resize(image,dsize=(10,10),interpolation=cv2.INTER_LINEAR)
-        #image_swap = np.swapaxes(image, 0,2)
-        #image_swap = np.expand_dims(image_swap, axis=0)
+
         tensor = torch.from_numpy(image).type(torch.FloatTensor)
 
         # model inference [2 LINES]
