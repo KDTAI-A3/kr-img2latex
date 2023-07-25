@@ -25,13 +25,15 @@ class DocumentCreateView(FormView):
 
         item = form.save(commit=False)
         item.desc = '모델 해석 진행중'
-        item.save()
+        #item.save()
         self.fid = item.pk
 
         response = requests.post('http://localhost:5000/predict', files = {'file':self.request.FILES['files']})
         if response.status_code == 200:
             item.desc = response.content
             item.save()
+        item.save()
+        self.fid = item.pk
         return super().form_valid(form)
 
 

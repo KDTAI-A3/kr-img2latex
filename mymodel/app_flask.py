@@ -8,6 +8,9 @@ from matplotlib import pyplot as plt
 from torchvision.models import efficientnet_v2_s
 import cv2
 import numpy as np
+from werkzeug.utils import secure_filename
+import json
+
 app = Flask(__name__)
 
 # assign model handler as global variable [2 LINES]
@@ -24,6 +27,10 @@ transforms_val = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
+with open('imagenet_class_index.json') as img_idxs:
+    data_class_file=json.load(img_idxs)
+
+data_class = dict(zip(map(lambda x:int(x),data_class_file.keys()),data_class_file.values()))
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -31,9 +38,12 @@ def predict():
     if request.method=='POST':
         f=request.files['file']
 
-        fn = f.filename
+        fn = './uploads/' + secure_filename(f.filename)
         f.save(fn)
+
         image = np.array(cv2.imread(fn),dtype=float)
+        print(image.shape)
+        image =np.expand_dims(image.transpose(2,0,1),axis=0)
         #image = cv2.resize(image,dsize=(10,10),interpolation=cv2.INTER_LINEAR)
         #image_swap = np.swapaxes(image, 0,2)
         #image_swap = np.expand_dims(image_swap, axis=0)
@@ -41,11 +51,13 @@ def predict():
 
         # model inference [2 LINES]
         model_input = tensor.to(device)
-        predictions = model(model_input)
+        predictions = model(model_input).cpu()
     
 
     # response
-    result = json.dumps(predictions)
+    result = predictions.detach().numpy()
+    result = data_class[np.argmax(result)]
+
     return result
 
 
