@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "polls.apps.PollsConfig",
-    "fileUpload.apps.FileuploadConfig"
+    "fileUpload.apps.FileuploadConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+# 로그인 성공후 이동하는 URL
+LOGIN_REDIRECT_URL = '/'
+# 로그아웃시 이동하는 URL
+LOGOUT_REDIRECT_URL = '/'
+
