@@ -6,5 +6,7 @@ app_name = "fileUpload"
 
 urlpatterns = [
     path("", views.DocumentCreateView.as_view(), name="index"),
-    path("show/<int:fid>", views.DocumentShowView.as_view(), name="show")
+    path("upload", views.DocumentCreateView.as_view(), name="upload"),
+    path("show/<int:fid>", views.DocumentShowView.as_view(), name="show"),
+    path("list", views.DocumentListView.as_view(), name="list"),
 ]

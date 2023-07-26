@@ -1,0 +1,9 @@
+{% if imgList %}
+    <ul>
+    {% for question in imgList %}
+        <li><a href="show/{{ question.id }}">{{ question.desc }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>질문이 없습니다.</p>
+{% endif %}
