@@ -1,5 +1,5 @@
 # KR-IMG2LATEX
-![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/ed650f09-95af-42a4-9ed8-16905adbc43a)
+![웹 캡처_27-7-2023_23146_](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/32bf89d0-98ff-4646-aa9b-7f74e862863a)
 
 ## Summary(Our Function)
 - 수식이 포함된 이미지를 텍스트 및 Latex 형태로 변환 (한국어 지원, 손글씨 지원)
