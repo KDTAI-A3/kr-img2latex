@@ -21,6 +21,7 @@ print('Current cuda device is', device)
 
 
 model = efficientnet_v2_s(weights='IMAGENET1K_V1')
+model.to(device)
 
 with open('imagenet_class_index.json') as img_idxs:
     data_class_file=json.load(img_idxs)
