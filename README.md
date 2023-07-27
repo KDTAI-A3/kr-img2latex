@@ -25,7 +25,7 @@
 - Levenshtein
 
 ## Model Building Process
-![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/22f4fe7c-b725-49f9-a61a-94f10a644267)
+TBD
 
 ## Training Data
 - 출처: [AIHub 수식, 도형, 낙서기호 OCR 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=479)
