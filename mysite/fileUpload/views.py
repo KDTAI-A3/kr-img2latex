@@ -11,8 +11,26 @@ from .models import ImageModel
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.generic import ListView
+from uuid import uuid4
+from django.http import JsonResponse
 
+import pdb
 # Create your views here.
+
+from requests.compat import (
+    Mapping,
+    basestring,
+    bytes,
+    getproxies,
+    getproxies_environment,
+    integer_types,
+)
+
+
+
+
+
+
 
 class DocumentCreateView(LoginRequiredMixin, FormView):
     template_name = 'fileUpload/Upload.html'
@@ -27,19 +45,33 @@ class DocumentCreateView(LoginRequiredMixin, FormView):
             form.instance.attached = self.request.FILES['files']
 
         item = form.save(commit=False)
-        item.result = '모델 해석 진행중'
+        #item.result = '모델 해석 진행중'
         item.author = self.request.user
         item.create_date = timezone.now()
+
         #item.save()
         self.fid = item.pk
+        post_data = {
+            'api-key':'temporary',
+            'request_id': str(uuid4()),
+            'timestamp': str(item.create_date) ,
+            'file':self.request.FILES['files'],
+        }
+        post_data = (post_data.items())
+        response = requests.post('http://localhost:5000/predict',  
 
-        response = requests.post('http://localhost:5000/predict', files = {'file':self.request.FILES['files']})
+            files = post_data
+            )
+        item.modelserver_img_no = item.pk
         if response.status_code == 200:
-            item.result = response.content
+            item.result = str(response.content)
+            item.modelserver_img_no = item.pk
+            print(response.content)
             item.save()
-        item.save()
-        self.fid = item.pk
-        return super().form_valid(form)
+            self.fid = item.pk
+            return super().form_valid(form)
+        #print(response.text)
+        return JsonResponse({'status':response.status_code})
 
 
 class DocumentShowView(DetailView):

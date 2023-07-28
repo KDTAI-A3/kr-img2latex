@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 from werkzeug.utils import secure_filename
 import json
-
+import os
 app = Flask(__name__)
 
 is_cuda = torch.cuda.is_available()
@@ -18,6 +18,8 @@ device = torch.device('cuda' if is_cuda else 'cpu')
 
 print('Current cuda device is', device)
 
+UPLOAD_FOLDER = './uploads/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 model = efficientnet_v2_s(weights='IMAGENET1K_V1')
@@ -32,9 +34,12 @@ data_class = dict(zip(map(lambda x:int(x),data_class_file.keys()),data_class_fil
 def predict():
 
     if request.method=='POST':
+        print(request.headers)
+        
+
         f=request.files['file']
 
-        fn = './uploads/' + secure_filename(f.filename)
+        fn = os.path.join(UPLOAD_FOLDER, secure_filename(f.filename))
         f.save(fn)
 
         image = np.array(cv2.imread(fn),dtype=float)
@@ -50,6 +55,7 @@ def predict():
 
     # response
     result = predictions.detach().numpy()
+    print(np.argmax(result))
     result = data_class[np.argmax(result)]
 
     return result

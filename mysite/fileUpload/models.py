@@ -32,9 +32,13 @@ class ImageModel(models.Model):
     desc = models.CharField(max_length=512)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.DateTimeField()
-    result = models.CharField(max_length=512)
+    #result = models.CharField(max_length=512)
+    modelserver_img_no = models.IntegerField(blank=True,null=True)
+    extracted_texts = models.CharField(max_length=512,default="추출 대기",)
+    classified_level = models.CharField(max_length=512,default="분류 대기",)
 
 
-
-
+class CreditModel(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    credit_amount = models.IntegerField() 
 
