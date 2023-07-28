@@ -1,5 +1,4 @@
-import requests
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,11 +9,11 @@ from .forms import ImageModelForm
 from .models import ImageModel
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView, RedirectView
 from uuid import uuid4
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 
-import pdb
+from .api import sendImageAPI, imgToLatexAPI, classifyLatexAPI
 # Create your views here.
 
 from requests.compat import (
@@ -33,7 +32,7 @@ from requests.compat import (
 
 
 class DocumentCreateView(LoginRequiredMixin, FormView):
-    template_name = 'fileUpload/Upload.html'
+    template_name = 'fileUpload/UploadFile.html'
     form_class = ImageModelForm
     fid = None
 
@@ -48,30 +47,17 @@ class DocumentCreateView(LoginRequiredMixin, FormView):
         #item.result = '모델 해석 진행중'
         item.author = self.request.user
         item.create_date = timezone.now()
-
         #item.save()
         self.fid = item.pk
-        post_data = {
-            'api-key':'temporary',
-            'request_id': str(uuid4()),
-            'timestamp': str(item.create_date) ,
-            'file':self.request.FILES['files'],
-        }
-        post_data = (post_data.items())
-        response = requests.post('http://localhost:5000/predict',  
-
-            files = post_data
-            )
-        item.modelserver_img_no = item.pk
-        if response.status_code == 200:
-            item.result = str(response.content)
-            item.modelserver_img_no = item.pk
-            print(response.content)
+        is_success, modelserver_img_no, _ = sendImageAPI(self.request.FILES['files'],timestamp=item.create_date)
+        
+        if is_success:
+            item.modelserver_img_no = modelserver_img_no
             item.save()
             self.fid = item.pk
             return super().form_valid(form)
         #print(response.text)
-        return JsonResponse({'status':response.status_code})
+        return JsonResponse({'error':modelserver_img_no})
 
 
 class DocumentShowView(DetailView):
@@ -86,3 +72,35 @@ class DocumentListView(LoginRequiredMixin, ListView):
         return ImageModel.objects.filter(author = self.request.user)
     context_object_name = "imgList"
     template_name="fileUpload/list.html"
+
+class GetExtractView(LoginRequiredMixin, RedirectView):
+    def get(self,request, *args, **kwargs):
+
+        fid = args['fid']
+        fileObj = ImageModel.objects.get(id = fid)
+        if fileObj.author.id != self.request.user.id:
+            return HttpResponse(status=401)
+        
+        is_success, result, _ = imgToLatexAPI(fileObj.modelserver_img_no)
+        if is_success:
+            fileObj.extracted_texts = result
+            fileObj.save()
+        else:
+            return HttpResponse(status=500)
+        return super().get(request,args,kwargs)
+        
+class GetClassifyResultView(LoginRequiredMixin, RedirectView):
+    def get(self,request, *args, **kwargs):
+
+        fid = args['fid']
+        fileObj = ImageModel.objects.get(id = fid)
+        if fileObj.author.id != self.request.user.id:
+            return HttpResponse(status=401)
+        
+        is_success, result, _ = classifyLatexAPI(fileObj.modelserver_img_no)
+        if is_success:
+            fileObj.classified_level = str(result)
+            fileObj.save()
+        else:
+            return HttpResponse(status=500)
+        return super().get(request,args,kwargs)

@@ -10,8 +10,8 @@
     {{fileImg.result}}</p>
     <img src="{{ fileImg.files.url }}" width="1500"/><br/>
 {% if fileImg.author.id == user.id %}
-    <button onclick="">수식추출</button>
-    <button onclick="">수준분류</button>
+    <button onclick="location.href='getLatex/{{fileImg.id}}'">수식추출</button>
+    <button onclick="location.href='getCls/{{fileImg.id}}'">수준분류</button>
 {% endif %}
 </body>
 </html>

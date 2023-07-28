@@ -1,23 +1,51 @@
-<html><body>
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="L.css" rel="stylesheet"/>
+</head>
+<body>
+    <form><pre>
 
 
 
-<div class="container my-3">
+
+
+
+
+
+        ID : <input id='userid' type='text'/><br>
+        PW : <input id='pwd' type='password'/>
+        
+        <button id='loginBtn' type="button">LogIn</button> 
+
+    </pre>
+    </form>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body>
+    <h1>Login</h1>
     <form method="post" action="{% url 'users:login' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
-        <div class="mb-3">
-            <label for="username">사용자ID</label>
-            <input type="text" class="form-control" name="username" id="username"
-                   value="{{ form.username.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="password">비밀번호</label>
-            <input type="password" class="form-control" name="password" id="password"
-                   value="{{ form.password.value|default_if_none:'' }}">
-        </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
-    </form>
-</div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"
+            value="{{ form.username.value|default_if_none:'' }}"><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"
+            value="{{ form.password.value|default_if_none:'' }}"><br>
 
-</body></html>
+        <button type="submit" id="li">Log in</button>
+    </form>
+    &nbsp;&nbsp;&nbsp;
+    <a href='SignUp.html'><button type="button" id="su">Sign up</button>
+</body>
+</html>

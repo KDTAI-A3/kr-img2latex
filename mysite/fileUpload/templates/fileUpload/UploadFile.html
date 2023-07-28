@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Text Generation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body>
+    <div class="container">
+        <form action="./" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+            {{ form }}
+            <button type="submit" id="upload-btn" onclick="">제출</button>
+            <label for="upload-btn">Choose an Image</label>
+            <div class="image-preview">
+                <img id="preview-image" src="" alt="Uploaded Image">
+            </div>
+        </div>
+
+    </form>
+</body>
+</html>

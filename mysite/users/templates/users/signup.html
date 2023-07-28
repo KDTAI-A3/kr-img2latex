@@ -1,27 +1,48 @@
-<div class="container my-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body>
     <form method="post" action="{% url 'users:signup' %}">
         {% csrf_token %}
         {% include "form_errors.html" %}
-        <div class="mb-3">
-            <label for="username">사용자 이름</label>
-            <input type="text" class="form-control" name="username" id="username"
-                   value="{{ form.username.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="password1">비밀번호</label>
-            <input type="password" class="form-control" name="password1" id="password1"
-                   value="{{ form.password1.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="password2">비밀번호 확인</label>
-            <input type="password" class="form-control" name="password2" id="password2"
-                   value="{{ form.password2.value|default_if_none:'' }}">
-        </div>
-        <div class="mb-3">
-            <label for="email">이메일</label>
-            <input type="text" class="form-control" name="email" id="email"
-                   value="{{ form.email.value|default_if_none:'' }}">
-        </div>
-        <button type="submit" class="btn btn-primary">생성하기</button>
+        <label for="username">ID: </label>
+        <input type="text" id="username" name="username"
+            value="{{ form.username.value|default_if_none:'' }}"><br>
+        <label for="password1">PW: </label>
+        <input type="password" id="password1" name="password1"
+            value="{{ form.password1.value|default_if_none:'' }}"><br>
+        <label for="password2">Confirm PW: </label>
+        <input type="password" id="password2" name="password2"
+            value="{{ form.password1.value|default_if_none:'' }}"><br>
+        <label for="email">Email: </label>
+        <input type="text" class="form-control" name="email" id="email"
+            value="{{ form.email.value|default_if_none:'' }}"><br>
+        <script>
+            //database에 이미 아이디가 존재하면 재입력하는 함수
+            function checkIfIDAleradyExist(){
+                var userid=document.getElementById("userid").value;
+
+                var check=checkDatabase(userid);
+
+                if(check){
+                    alert("이미 존재하는 아이디입니다, 다른 아이디를 입력해주세요.");               
+                }else{
+                    window.location.href="Login.html";
+                }
+            }
+            //서버에 요청 보내서 확인할 함수
+            function checkDatabase(){
+                //데이터베이스에서 아이디 중복 여부 확인하고 결과 리턴할 것
+                //중복 없으면 여기서 등록
+                return;
+            }
+        </script>
+        <button type="submit" id="li" >OK</button>
     </form>
-</div>
+</body>
+</html>
