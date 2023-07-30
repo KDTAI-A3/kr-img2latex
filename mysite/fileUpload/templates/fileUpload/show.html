@@ -7,11 +7,12 @@
 <body>
     <h1>파일 업로드 확인</h1>
     <p>{{ fileImg.desc }}<br/>
-    {{fileImg.result}}</p>
+    수식: {{fileImg.extracted_texts}}
+    등급: {{fileImg.classified_level}}</p>
     <img src="{{ fileImg.files.url }}" width="1500"/><br/>
 {% if fileImg.author.id == user.id %}
-    <button onclick="location.href='getLatex/{{fileImg.id}}'">수식추출</button>
-    <button onclick="location.href='getCls/{{fileImg.id}}'">수준분류</button>
+    <button onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식추출</button>
+    <button onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">수준분류</button>
 {% endif %}
 </body>
 </html>

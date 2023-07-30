@@ -133,7 +133,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 # 로그인 성공후 이동하는 URL
-LOGIN_REDIRECT_URL = 'fileUpload/'
+LOGIN_REDIRECT_URL = '/fileUpload/'
 LOGIN_URL = '/users/login/'
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'

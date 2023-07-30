@@ -34,8 +34,10 @@ class ImageModel(models.Model):
     create_date = models.DateTimeField()
     #result = models.CharField(max_length=512)
     modelserver_img_no = models.IntegerField(blank=True,null=True)
-    extracted_texts = models.CharField(max_length=512,default="추출 대기",)
-    classified_level = models.CharField(max_length=512,default="분류 대기",)
+    is_text_extracted = models.BooleanField(default=False)
+    is_level_classified = models.BooleanField(default=False)
+    extracted_texts = models.CharField(max_length=512,default="Not Extracted",) # non-ascii char cause error
+    classified_level = models.CharField(max_length=512,default="Not classified",)
 
 
 class CreditModel(models.Model):

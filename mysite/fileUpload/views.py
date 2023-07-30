@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.generic import ListView, RedirectView
 from uuid import uuid4
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 from .api import sendImageAPI, imgToLatexAPI, classifyLatexAPI
 # Create your views here.
@@ -76,31 +76,34 @@ class DocumentListView(LoginRequiredMixin, ListView):
 class GetExtractView(LoginRequiredMixin, RedirectView):
     def get(self,request, *args, **kwargs):
 
-        fid = args['fid']
+        fid = kwargs['fid']
         fileObj = ImageModel.objects.get(id = fid)
         if fileObj.author.id != self.request.user.id:
             return HttpResponse(status=401)
-        
-        is_success, result, _ = imgToLatexAPI(fileObj.modelserver_img_no)
-        if is_success:
-            fileObj.extracted_texts = result
-            fileObj.save()
-        else:
-            return HttpResponse(status=500)
-        return super().get(request,args,kwargs)
+        if fileObj.is_text_extracted == False:
+            is_success, result, _ = imgToLatexAPI(fileObj.modelserver_img_no)
+            if is_success:
+                fileObj.extracted_texts = result
+                fileObj.is_text_extracted = True
+                fileObj.save()
+            else:
+                return HttpResponse(status=500)
+        return redirect("/fileUpload/show/"+str(fid))
         
 class GetClassifyResultView(LoginRequiredMixin, RedirectView):
     def get(self,request, *args, **kwargs):
 
-        fid = args['fid']
+        fid = kwargs['fid']
         fileObj = ImageModel.objects.get(id = fid)
         if fileObj.author.id != self.request.user.id:
             return HttpResponse(status=401)
-        
-        is_success, result, _ = classifyLatexAPI(fileObj.modelserver_img_no)
-        if is_success:
-            fileObj.classified_level = str(result)
-            fileObj.save()
-        else:
-            return HttpResponse(status=500)
-        return super().get(request,args,kwargs)
+        if fileObj.is_text_extracted == False:
+            is_success, result, _ = classifyLatexAPI(fileObj.modelserver_img_no)
+            if is_success:
+                fileObj.classified_level = str(result)
+                fileObj.is_level_classified = True
+                fileObj.save()
+            else:
+                return HttpResponse(status=500)
+            
+        return redirect("/fileUpload/show/"+str(fid))
