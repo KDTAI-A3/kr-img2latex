@@ -4,20 +4,17 @@ from uuid import uuid4
 from django.utils import timezone
 import requests
 
-SERVER_URL = "http://ec2-52-59-253-171.eu-central-1.compute.amazonaws.com:8000/"
-API_KEY = 'CAFFEINE-HOLIC'
-
-
+from django.conf import settings
 
 import base64
 
-def sendImageAPI(file, api_key = API_KEY, request_id = uuid4(), timestamp = timezone.now()):
+def sendImageAPI(file, api_key = settings.API_KEY, request_id = uuid4(), timestamp = timezone.now()):
     file_data = base64.b64encode(file.read()).decode('utf-8')
     API_settings = ('SendImage/sendimage','file','img_num')
     return commonAPI(API_settings,file_data,api_key,request_id,timestamp)
 
 
-def commonAPI(API_settings, data, api_key = API_KEY, request_id = uuid4(), timestamp = timezone.now()):
+def commonAPI(API_settings, data, api_key = settings.API_KEY, request_id = uuid4(), timestamp = timezone.now()):
     API_url, data_name, result_name = API_settings
     post_data = {
             'api-key':api_key,
@@ -26,7 +23,7 @@ def commonAPI(API_settings, data, api_key = API_KEY, request_id = uuid4(), times
             data_name : data,
         }
     #post_data = (post_data.items())
-    response = requests.post(SERVER_URL+API_url,  
+    response = requests.post(settings.SERVER_URL+API_url,  
         json = post_data
         )
     print(response.content)
@@ -38,10 +35,10 @@ def commonAPI(API_settings, data, api_key = API_KEY, request_id = uuid4(), times
     return (False, f"ERROR: NO_RESULT{ response.status_code}","ERROR")
 
 
-def imgToLatexAPI(img_num, api_key = API_KEY, request_id = uuid4(), timestamp = timezone.now()):
+def imgToLatexAPI(img_num, api_key = settings.API_KEY, request_id = uuid4(), timestamp = timezone.now()):
      API_settings = ('/Img2Latex/img2latex','img_num','result')
      return commonAPI(API_settings,img_num,api_key,request_id,timestamp)
      
-def classifyLatexAPI(img_num, api_key = API_KEY, request_id = uuid4(), timestamp = timezone.now()):
+def classifyLatexAPI(img_num, api_key = settings.API_KEY, request_id = uuid4(), timestamp = timezone.now()):
      API_settings = ('/CLF_LATEX/clf-latex','img_num','result')
      return commonAPI(API_settings,img_num,api_key,request_id,timestamp)

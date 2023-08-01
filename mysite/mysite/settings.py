@@ -138,3 +138,10 @@ LOGIN_URL = '/users/login/'
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
 
+
+
+
+#API 세팅
+
+SERVER_URL = "http://ec2-52-59-253-171.eu-central-1.compute.amazonaws.com:8000/"
+API_KEY = 'CAFFEINE-HOLIC'
