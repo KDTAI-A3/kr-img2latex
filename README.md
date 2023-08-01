@@ -1,5 +1,8 @@
 # KR-IMG2LATEX
+**DONUT FINE-TUNED MODEL**
 ![웹 캡처_27-7-2023_23146_](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/32bf89d0-98ff-4646-aa9b-7f74e862863a)
+
+**BERT FINE-TUNED MODEL**
 ![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/078accc2-a085-429b-abd3-84be864c960b)
 
 
@@ -20,9 +23,13 @@
 - 송승헌 : 서버 관리, 프론트엔드 개발, 모델 개발 보조
 
 ## Our Model Score
-- F1
-- MSE
-- Levenshtein
+- DONUT
+  - F1 : 94.2%
+    - Print Type : 98.9%
+    - HandWritten Type : 92.6%
+  - Levenshtein : 92.7%
+- BERT
+  - Accuracy: 83%
 
 ## Model Building Process
 TBD
@@ -32,7 +39,7 @@ TBD
 - Token Vocabulary 출처: Notepad++ - Latex AutoComplete XML File
 
 ## References
-- DONUT(naver/clova)
-- openai-api
-- easyocr
-- kaggle
+- [DONUT(naver/clova)](https://github.com/clovaai/donut)
+- [openai-api](https://openai.com/)
+- [easyocr](https://github.com/JaidedAI/EasyOCR)
+- [kaggle](https://www.kaggle.com/code/nbroad/donut-train-benetech)
