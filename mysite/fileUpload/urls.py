@@ -7,7 +7,7 @@ app_name = "fileUpload"
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name='fileUpload/Main.html'), name="index"),
-    path("help", TemplateView.as_view(template_name='fileUpload/help.html'), name="help"),
+    path("help", TemplateView.as_view(template_name='fileUpload/Help.html'), name="help"),
     
     path("upload", views.DocumentCreateView.as_view(), name="upload"),
     path("show/<int:fid>", views.DocumentShowView.as_view(), name="show"),
