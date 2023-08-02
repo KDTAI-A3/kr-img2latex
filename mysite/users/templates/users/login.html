@@ -31,21 +31,36 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
+<style>
+    h1{
+        text-align: center;
+    }
+    .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+    }
+</style>
 <body>
-    <h1>Login</h1>
-    <form method="post" action="{% url 'users:login' %}">
-        {% csrf_token %}
-        {% include "form_errors.html" %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"
-            value="{{ form.username.value|default_if_none:'' }}"><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"
-            value="{{ form.password.value|default_if_none:'' }}"><br>
+    <main class="centered-form">
+        <h1>Login</h1>
+        
+        <form method="post" action="{% url 'users:login' %}" >
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"
+                value="{{ form.username.value|default_if_none:'' }}"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"
+                value="{{ form.password.value|default_if_none:'' }}"><br>
 
-        <button type="submit" id="li">Log in</button>
-    </form>
-    &nbsp;&nbsp;&nbsp;
-    <a href='/users/signup'><button type="button" id="su">Sign up</button>
+            <button type="submit" class="blank" id="li" position="absolute">Log in</button>
+        
+            <a href="{% url 'users:signup' %}"><button type="button" class="blank" id="su" position="absolute">Sign up</button>
+            </a>
+        </form>
+    </main>
 </body>
 </html>

@@ -2,17 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>파일 업로드</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+        margin: 0;
+    }
+    .container {
+        text-align: center;
+    }
+    .image-container{
+        width:400px;
+        height:300px;
+    }
+    .image-container img{
+        max-width: 50%;
+        max-height: 50%;
+        display: block;
+    }
+</style>
 <body>
     <h1>파일 업로드 확인</h1>
-    <p>{{ fileImg.desc }}<br/>
-    수식: {{fileImg.extracted_texts}}
-    등급: {{fileImg.classified_level}}</p>
-    <img src="{{ fileImg.files.url }}" width="1500"/><br/>
-{% if fileImg.author.id == user.id %}
-    <button onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식추출</button>
-    <button onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">수준분류</button>
-{% endif %}
+    <br><br><br><br><br>
+    <div>
+    <div id="grade">등급: {{fileImg.classified_level}}</div>
+    <div id="latex">수식: {{fileImg.extracted_texts}}</div>
+    <div class="image-container">
+        <!-- UploadFile.html에서 받아온 이미지로 대체 -->
+        <img src="{{ fileImg.files.url }}">
+    </div>
+    <br><br><br>
+    {% if fileImg.author.id == user.id %}
+        <button type="button" onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식추출</button>
+        <button type="button" onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">수준분류</button>
+    {% endif %}
+    </div>
 </body>
 </html>
