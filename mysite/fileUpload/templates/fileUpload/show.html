@@ -7,46 +7,91 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
 <style>
-    body{
+     body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            
+        }
+    .box {
+        width: 300px;
+        height: 250px;
+        border: 5px solid gold;
+        background-image: url("https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg");
+        background-size: contain; /* try other properties here like cover, contain, etc */
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+      }
+      .container{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 50vh;
-        margin: 0;
+      }
+      .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+      .button-container #lgoutbtn{
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }  
+    .button-container2{
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right:50px;
     }
-    .container {
-        text-align: center;
-    }
-    .image-container{
-        width:400px;
-        height:300px;
-    }
-    .image-container img{
-        max-width: 50%;
-        max-height: 50%;
-        display: block;
-    }
-</style>
-<body>
 
-    <div>
-    <h1>파일 업로드 확인</h1>
-    <br><br>
-    <div id="grade">등급: {{fileImg.classified_level}}</div>
-    <div id="latex">수식: {{fileImg.extracted_texts}}</div>
-    <div class="image-container">
-        <!-- UploadFile.html에서 받아온 이미지로 대체 -->
-        <img src="{{ fileImg.files.url }}" alt="이미지 로딩중">
+</style>
+
+
+
+<body>
+    <!--등급:~ / 수식:~ / 이미지 / (latex)추출(button)-->
+    <!--추출 버튼 >> 수식 정보 추가 & 추출 버튼 자리에 등급, 수식 설명 버튼-->
+    <div class="button-container" id="lgobtn">
+        {% if user.id is None %}
+        <a href="{% url 'users:login' %}"><button type="button" position="absolute" id="lgoutbtn">Login</button></a>
+        {%else%}
+        <a href="{% url 'users:logout' %}"><button type="button" position="absolute" id="lgoutbtn">Logout</button></a>
+        {%endif%}
     </div>
-    <br><br><br>
-    {% if fileImg.author.id == user.id %}
-        {%if fileImg.is_text_extracted %}
-        <button type="button" onclick="location.href='/fileUpload/doChatGpt/{{fileImg.id}}'">수식 설명</button>
-        <button type="button" onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">등급 분류</button>
+    <br><br><br><br>
+    <div class="container" style="justify-content: center;">
+        <div class="LeftSideContents" style="flex:1;">
+            <div class="box"></div>
+            <div class="container" id="buttons" style="justify-content: space-evenly;">
+        {% if fileImg.author.id == user.id %}
+        {% if fileImg.is_text_extracted == False%}
+                <div class="button-container2">
+                    <button type="button">수식 추출</button>
+                </div>
         {% else %}
-        <button type="button" onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식 추출</button>
+                <div class="button-container2">
+                    <button type="button">등급</button>
+                </div>
+                <div class="button-container2">
+                    <button type="button">설명</button>
+                </div>
         {% endif %}
-    {% endif %}
+        {% endif %}
+            </div>
+        </div>
+        <div class="RightSideContents" style="flex:1;">
+            <h4>수식 추출</h4>
+            <input type="text" value="{{fileImg.extracted_texts}}">
+            <h4>등급</h4>
+            <input type="text" value="{{fileImg.classified_level}}" readonly><!--value: -->
+            <h4>수식 설명</h4>
+            <input type="text" value="{{fileImg.chatgpt_result}}" readonly>
+        </div>
     </div>
+
 </body>
+
 </html>
