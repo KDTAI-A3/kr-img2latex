@@ -28,14 +28,15 @@
     }
 </style>
 <body>
-    <h1>파일 업로드 확인</h1>
-    <br><br><br><br><br>
+
     <div>
+    <h1>파일 업로드 확인</h1>
+    <br><br>
     <div id="grade">등급: {{fileImg.classified_level}}</div>
     <div id="latex">수식: {{fileImg.extracted_texts}}</div>
     <div class="image-container">
         <!-- UploadFile.html에서 받아온 이미지로 대체 -->
-        <img src="{{ fileImg.files.url }}">
+        <img src="{{ fileImg.files.url }}" alt="이미지 로딩중">
     </div>
     <br><br><br>
     {% if fileImg.author.id == user.id %}

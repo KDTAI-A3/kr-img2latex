@@ -1,9 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Text Generation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<style>
+    .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        justify-content: center; 
+    }
+    .centered-form div{
+        display: block;
+        max-width: fit-content;
+        max-height: fit-content;
+    }
+    body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Optional styling for the button */
+        .button-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: solid;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+</style>
+<body style="text-align: center;">
+    <script>
+        function openModal1() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'block';
+        }
+        function openModal2() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        }
+    </script>
+    <div class="button-container">
+        <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+    </div>
 {% if imgList %}
-    <ul>
-    {% for question in imgList %}
-        <li><a href="show/{{ question.id }}">{{ question.desc }}</a></li>
+    <div>
+        <h2>요청 기록</h2>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">이미지</th>
+              <th scope="col">생성날짜</th>
+              <th scope="col">추출문</th>
+              <th scope="col">등급</th>
+              <th scope="col">설명</th>
+            </tr>
+          </thead>
+          <tbody>
+    {% for fileImg in imgList %}
+            <tr>
+              <th scope="row"><a href="show/{{ question.id }}">{{ fileImg.id }}</a></th>
+              <td>{{ fileImg.desc }}</td>
+              <td>{{ fileImg.create_time }}</td>
+              <td>{{ fileImg.extracted_texts }}
+                <button onclick="openModal1()">코드 전체보기</button>
+            </td>
+              <td>{{ fileImg.classified_level }}</td>
+              <td>{{ fileImg.chatgpt_result}}
+                <button onclick="openModal2()">생성결과 전체보기</button>
+              </td>
+            </tr>
     {% endfor %}
-    </ul>
 {% else %}
-    <p>질문이 없습니다.</p>
+    <div>
+        <h2>요청 기록이 없습니다.</h2>
+    </div>
 {% endif %}
+    <a href="{% url 'fileUpload:upload' %}"><button>파일 업로드</button></a>
+</body>
+</html>
