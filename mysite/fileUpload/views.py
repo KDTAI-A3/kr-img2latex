@@ -80,6 +80,8 @@ class GetExtractView(LoginRequiredMixin, RedirectView):
         fileObj = ImageModel.objects.get(id = fid)
         if fileObj.author.id != self.request.user.id:
             return HttpResponse(status=401)
+        if fileObj.modelserver_img_no is None:
+            return HttpResponse(status=500)
         if fileObj.is_text_extracted == False:
             is_success, result, _ = imgToLatexAPI(fileObj.modelserver_img_no)
             if is_success:
@@ -97,6 +99,8 @@ class GetClassifyResultView(LoginRequiredMixin, RedirectView):
         fileObj = ImageModel.objects.get(id = fid)
         if fileObj.author.id != self.request.user.id:
             return HttpResponse(status=401)
+        if fileObj.modelserver_img_no is None:
+            return HttpResponse(status=500)
         if fileObj.is_text_extracted == False:
             is_success, result, _ = classifyLatexAPI(fileObj.modelserver_img_no)
             if is_success:
