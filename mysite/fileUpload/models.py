@@ -38,6 +38,8 @@ class ImageModel(models.Model):
     is_level_classified = models.BooleanField(default=False)
     extracted_texts = models.CharField(max_length=512,default="Not Extracted",) # non-ascii char cause error
     classified_level = models.CharField(max_length=512,default="Not classified",)
+    chatgpt_result = models.CharField(max_length=512, default="Not done",)
+    is_chatgpt_analyzed = models.BooleanField(default=False)
 
 
 class CreditModel(models.Model):

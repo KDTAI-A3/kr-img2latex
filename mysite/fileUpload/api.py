@@ -42,3 +42,11 @@ def imgToLatexAPI(img_num, api_key = settings.API_KEY, request_id = uuid4(), tim
 def classifyLatexAPI(img_num, api_key = settings.API_KEY, request_id = uuid4(), timestamp = timezone.now()):
      API_settings = ('/CLF_LATEX/clf-latex','img_num','result')
      return commonAPI(API_settings,img_num,api_key,request_id,timestamp)
+
+
+def chatgptAPI(latex_formula):
+    from . import api_gpt
+    openai_api_key = settings.OPENAI_API_KEY
+    result = api_gpt.generate_chat_completion(openai_api_key, latex_formula)
+    return result
+
