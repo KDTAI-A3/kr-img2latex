@@ -40,8 +40,12 @@
     </div>
     <br><br><br>
     {% if fileImg.author.id == user.id %}
-        <button type="button" onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식추출</button>
-        <button type="button" onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">수준분류</button>
+        {%if fileImg.is_text_extracted %}
+        <button type="button" onclick="location.href='/fileUpload/doChatGpt/{{fileImg.id}}'">수식 설명</button>
+        <button type="button" onclick="location.href='/fileUpload/getCls/{{fileImg.id}}'">등급 분류</button>
+        {% else %}
+        <button type="button" onclick="location.href='/fileUpload/getLatex/{{fileImg.id}}'">수식 추출</button>
+        {% endif %}
     {% endif %}
     </div>
 </body>

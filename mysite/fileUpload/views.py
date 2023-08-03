@@ -107,3 +107,23 @@ class GetClassifyResultView(LoginRequiredMixin, RedirectView):
                 return HttpResponse(status=500)
             
         return redirect("/fileUpload/show/"+str(fid))
+
+class ChatGptResultView(LoginRequiredMixin, RedirectView):
+    def get(self,request, *args, **kwargs):
+
+        fid = kwargs['fid']
+        fileObj = ImageModel.objects.get(id = fid)
+        if fileObj.author.id != self.request.user.id:
+            return HttpResponse(status=401)
+        if fileObj.is_chatgpt_analyzed == False:
+
+            result = chatgptAPI(fileObj.extracted_texts)
+            is_success = True
+            if is_success:
+                fileObj.chatgpt_result = str(result)
+                fileObj.is_chatgpt_analyzed = True
+                fileObj.save()
+            else:
+                return HttpResponse(status=500)
+            
+        return redirect("/fileUpload/show/"+str(fid))
