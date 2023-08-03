@@ -13,7 +13,7 @@ from django.views.generic import ListView, RedirectView
 from uuid import uuid4
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
-from .api import sendImageAPI, imgToLatexAPI, classifyLatexAPI
+from .api import sendImageAPI, imgToLatexAPI, classifyLatexAPI, chatgptAPI
 # Create your views here.
 
 from requests.compat import (
