@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.views.generic import ListView, RedirectView
 from uuid import uuid4
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.core.paginator import Paginator
 
 from .api import sendImageAPI, imgToLatexAPI, classifyLatexAPI, chatgptAPI
 # Create your views here.
@@ -68,6 +69,7 @@ class DocumentShowView(DetailView):
 
 class DocumentListView(LoginRequiredMixin, ListView):
     model = ImageModel
+    paginate_by = 3
     def get_queryset(self):
         return ImageModel.objects.filter(author = self.request.user)
     context_object_name = "imgList"
