@@ -12,7 +12,7 @@ class ImgFiles(db.Model):
     img_file_path = db.Column('img_file_path',
                             db.String(255))
     created_time = db.Column('created_time',
-                             db.DateTime)
+                             db.String(64))
     
     db.relationship('extracted_result', 'clf_result')
 

@@ -1,6 +1,9 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_restx import Api, Resource, fields
 from models import db, ImgFiles, ExtractedResult, ClfResult
+
+from ai_model import CFG, LatexGenerator, BERT
+import torch
 
 from logs import log_write
 
@@ -9,6 +12,14 @@ import datetime
 import base64
 
 API_KEY = 'CAFFEINE-HOLIC'
+
+bert_pretrained_path = '/home/ubuntu/kr-img2latex/pretrained/Sub/epoch-1, batch-40, max_length-512, kykim-BERT-model'
+bert_model = BERT(bert_pretrained_path)
+
+
+latex_pretrained_path = "/home/ubuntu/kr-img2latex/pretrained/main/epoch-2, batch-2, length/"
+latex_gen = LatexGenerator(latex_pretrained_path)
+
 
 app = Flask(__name__)
 
@@ -37,7 +48,7 @@ sendimage_api = api.namespace('SendImage',
 sendimage_fields = sendimage_api.model('SendImageModel', {
     'api-key': fields.String(description='api-key'),
     'request_id':fields.String(description='request uuid4 string'),
-    'timestamp':fields.DateTime(description='datetime field'),
+    'timestamp':fields.String(description='datetime field'),
     'file':fields.String(description='Image file content as base64 encoded string')
 })
 
@@ -94,7 +105,7 @@ img2latex_api = api.namespace('Img2Latex',
 img2latex_fields = img2latex_api.model('Img2LatexModel', {
     'api-key': fields.String(description='api-key'),
     'request_id':fields.String(description='request uuid4 string'),
-    'timestamp':fields.DateTime(description='datetime field'),
+    'timestamp':fields.String(description='datetime field'),
     'img_num':fields.Integer(description='Image Number')
 })
 
@@ -117,9 +128,10 @@ class Img2Latex(Resource):
             img_file_path = f'./img_files/image_{data["img_num"]}.png'
             
             ### MODEL WILL PARSE THE IMAGE
-            # model.generate(...)
-            
-            extracted_text = "Model Result will be here"
+            output = latex_gen.generate_latex(img_file_path)
+            extracted_text = latex_gen.post_process(output)
+            # extracted_text = 'This is for test'
+                
             creation_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             new_text_result.img_num = data['img_num']
@@ -147,7 +159,7 @@ class Img2Latex(Resource):
             db.session.add(new_text_result)
             db.session.commit()
 
-            log_write('Img2Latex API FAILED')
+            log_write('Img2Latex API FAILED' + str(err))
 
             return {
                     'is_success': False,
@@ -161,7 +173,7 @@ clf_latex_api = api.namespace('CLF_LATEX',
 clf_latex_fields = clf_latex_api.model('ClF_LatexModel', {
     'api-key': fields.String(description='api-key'),
     'request_id':fields.String(description='request uuid4 string'),
-    'timestamp':fields.DateTime(description='datetime field'),
+    'timestamp':fields.String(description='datetime field'),
     'img_num':fields.Integer(description='Image Number')
 })
 
@@ -182,11 +194,11 @@ class ClfLatex(Resource):
 
         try:
             input_text = ExtractedResult.query.filter(ExtractedResult.img_num==data['img_num']).first()
-
+            print(input_text)
             ### MODEL WILL PARSE THE IMAGE
             # model.generate(...)
-            
-            clf_result = "E2" # temp
+            # clf_result = 'Test e2'
+            clf_result = bert_model.predict_sequences([input_text])
             creation_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             new_clf_result.img_num = data['img_num']
@@ -202,7 +214,7 @@ class ClfLatex(Resource):
                     'is_success': True,
                     'timestamp': creation_time,
                     'result': clf_result,
-                }
+            }
             
             return result_dict
         
@@ -214,14 +226,14 @@ class ClfLatex(Resource):
             db.session.add(new_clf_result)
             db.session.commit()
 
-            log_write('ClfLatex API FAILED')
+            log_write('ClfLatex API FAILED ' + str(err))
 
             return {
                     'is_success': False,
                     'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                     'result': -2
-                    }
+            }
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8000)
