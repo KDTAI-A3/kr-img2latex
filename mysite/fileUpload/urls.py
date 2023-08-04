@@ -15,4 +15,6 @@ urlpatterns = [
     path("getLatex/<int:fid>", views.GetExtractView.as_view(), name="getLatex"),
     path("getCls/<int:fid>", views.GetClassifyResultView.as_view(), name="getCls"),
     path("doChatGpt/<int:fid>", views.ChatGptResultView.as_view(), name="doChatGpt"),
+    path('getLatexText', views.GetLatexData, name='getLatexText'),
+    path('getGPTText', views.GetGPTData, name='getGPTText'),
 ]

@@ -136,3 +136,19 @@ class ChatGptResultView(LoginRequiredMixin, RedirectView):
                 return HttpResponse(status=500)
             
         return redirect(reverse_lazy("fileUpload:show",kwargs = {'fid':fid}))
+
+def GetLatexData(request):
+    fid = request.GET.get('id', None)
+    fileObj = ImageModel.objects.get(id = fid)
+
+    jsonData = {'value':fileObj.extracted_texts}
+
+    return JsonResponse(jsonData)
+
+def GetGPTData(request):
+    fid = request.GET.get('id', None)
+    fileObj = ImageModel.objects.get(id = fid)
+
+    jsonData = {'value':fileObj.chatgpt_result}
+
+    return JsonResponse(jsonData)
