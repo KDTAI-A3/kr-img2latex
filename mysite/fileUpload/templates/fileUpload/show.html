@@ -68,7 +68,8 @@
         {% if fileImg.author.id == user.id %}
         {% if fileImg.is_text_extracted == False%}
                 <div class="button-container2">
-                    <button type="button">수식 추출</button>
+                    {% url 'fileUpload:getLatex' fid=fileImg.id as getLatexURL%}
+                    <button type="button" onclick="location.href='{% url "fileUpload:getLatex" fid=fileImg.id %}'">수식 추출</button>
                 </div>
         {% else %}
                 <div class="button-container2">

@@ -84,6 +84,7 @@ class GetExtractView(LoginRequiredMixin, RedirectView):
             return HttpResponse(status=401)
         if fileObj.modelserver_img_no is None:
             return HttpResponse(status=500)
+        
         if fileObj.is_text_extracted == False:
             is_success, result, _ = imgToLatexAPI(fileObj.modelserver_img_no)
             if is_success:
@@ -92,7 +93,7 @@ class GetExtractView(LoginRequiredMixin, RedirectView):
                 fileObj.save()
             else:
                 return HttpResponse(status=500)
-        return redirect("/fileUpload/show/"+str(fid))
+        return redirect(reverse_lazy("fileUpload:show",kwargs = {'fid':fid}))
         
 class GetClassifyResultView(LoginRequiredMixin, RedirectView):
     def get(self,request, *args, **kwargs):
@@ -112,8 +113,8 @@ class GetClassifyResultView(LoginRequiredMixin, RedirectView):
             else:
                 return HttpResponse(status=500)
             
-        return redirect("/fileUpload/show/"+str(fid))
-
+        return redirect(reverse_lazy("fileUpload:show",kwargs = {'fid':fid}))
+        
 class ChatGptResultView(LoginRequiredMixin, RedirectView):
     def get(self,request, *args, **kwargs):
 
@@ -132,4 +133,4 @@ class ChatGptResultView(LoginRequiredMixin, RedirectView):
             else:
                 return HttpResponse(status=500)
             
-        return redirect("/fileUpload/show/"+str(fid))
+        return redirect(reverse_lazy("fileUpload:show",kwargs = {'fid':fid}))
