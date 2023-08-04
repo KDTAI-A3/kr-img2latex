@@ -73,10 +73,10 @@
                 </div>
         {% else %}
                 <div class="button-container2">
-                    <button type="button">등급</button>
+                    <button type="button" onclick="location.href='{% url "fileUpload:getCls" fid=fileImg.id %}'">등급</button>
                 </div>
                 <div class="button-container2">
-                    <button type="button">설명</button>
+                    <button type="button" onclick="location.href='{% url "fileUpload:doChatGpt" fid=fileImg.id %}'">설명</button>
                 </div>
         {% endif %}
         {% endif %}

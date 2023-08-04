@@ -45,4 +45,8 @@ class ImageModel(models.Model):
 class CreditModel(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     credit_amount = models.IntegerField() 
+    def canDoWithCredit():
+        return True
+    def consumeCredit():
+        pass
 
