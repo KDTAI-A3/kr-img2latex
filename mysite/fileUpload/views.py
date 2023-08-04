@@ -114,7 +114,7 @@ class GetClassifyResultView(LoginRequiredMixin, RedirectView):
                 return HttpResponse(status=500)
             
         return redirect(reverse_lazy("fileUpload:show",kwargs = {'fid':fid}))
-        
+
 class ChatGptResultView(LoginRequiredMixin, RedirectView):
     def get(self,request, *args, **kwargs):
 
@@ -124,10 +124,12 @@ class ChatGptResultView(LoginRequiredMixin, RedirectView):
             return HttpResponse(status=401)
         if fileObj.is_chatgpt_analyzed == False:
 
-            result = chatgptAPI(fileObj.extracted_texts)
+            result = str(chatgptAPI(fileObj.extracted_texts))
+            if len(result)>4096:
+                result = result[:4096]
             is_success = True
             if is_success:
-                fileObj.chatgpt_result = str(result)
+                fileObj.chatgpt_result = result
                 fileObj.is_chatgpt_analyzed = True
                 fileObj.save()
             else:
