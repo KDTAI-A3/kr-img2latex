@@ -40,7 +40,7 @@
 
 ## References
 - [DONUT(naver/clova)](https://github.com/clovaai/donut)
-- [bert(Google/research](https://github.com/google-research/bert)
+- [bert(Google/research)](https://github.com/google-research/bert)
 - [kykim/bert-kor-base](https://github.com/kiyoungkim1/LMkor)
 - [openai-api](https://openai.com/)
 - [easyocr](https://github.com/JaidedAI/EasyOCR)
