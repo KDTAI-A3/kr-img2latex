@@ -23,7 +23,6 @@ from django.views.generic import TemplateView,RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("polls/", include("polls.urls")),
     path("fileUpload/", include("fileUpload.urls")),
     path("",TemplateView.as_view(template_name='Start.html'), name='index'),
     path("users/", include("users.urls")),
