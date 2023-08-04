@@ -18,7 +18,6 @@
         width: 300px;
         height: 250px;
         border: 5px solid gold;
-        background-image: url("https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg");
         background-size: contain; /* try other properties here like cover, contain, etc */
         background-repeat: no-repeat;
         background-position: 50% 50%;
@@ -64,7 +63,7 @@
     <br><br><br><br>
     <div class="container" style="justify-content: center;">
         <div class="LeftSideContents" style="flex:1;">
-            <div class="box"></div>
+            <div class="box"> <img src="{{fileImg.files.url}}"></div>
             <div class="container" id="buttons" style="justify-content: space-evenly;">
         {% if fileImg.author.id == user.id %}
         {% if fileImg.is_text_extracted == False%}
