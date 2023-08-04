@@ -32,7 +32,7 @@
   - Accuracy: 83%
 
 ## Model Building Process
-TBD
+![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/1625d2a8-83b6-4ab3-9d32-d8f4171e72cf)
 
 ## Training Data
 - 출처: [AIHub 수식, 도형, 낙서기호 OCR 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=479)
