@@ -37,15 +37,18 @@ class LoginTry(TestCase):
         self.assertContains(response,"This field is required.")
 
         #upload actual file
-        arg_file = {"desc":"file_added","files":open("test_data/test_img_1.png")}
+
+
+        with open("test_data/test_img_1.png",'rb') as f:
+            file_data = f.read()
+        arg_file = {"desc":"file_added","files":file_data}
         
 
-        mock_get.return_value.json.return_value = {'is_success': True, 'img_num': 1, 'timestamp' : "2023-08-04 10:56:56"}
+        mock_get.return_value = {'is_success': True, 'img_num': 1, 'timestamp' : timezone.now()}
 
         
-        response = self.client.post(reverse("fileUpload:upload"),data = arg_file)
-        #print(response.content)
-        response.charset = 'utf-8'
+        response = self.client.post(reverse("fileUpload:upload"),data = arg_file,headers={'enctype':"multipart/form-data"})
+
         self.assertEqual(response.status_code,200)
         self.assertNotContains(response,"This field is required.")
 

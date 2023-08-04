@@ -104,7 +104,7 @@ class GetClassifyResultView(LoginRequiredMixin, RedirectView):
             return HttpResponse(status=401)
         if fileObj.modelserver_img_no is None:
             return HttpResponse(status=500)
-        if fileObj.is_text_extracted == False:
+        if fileObj.is_level_classified == False:
             is_success, result, _ = classifyLatexAPI(fileObj.modelserver_img_no)
             if is_success:
                 fileObj.classified_level = str(result)
