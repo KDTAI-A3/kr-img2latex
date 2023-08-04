@@ -21,3 +21,9 @@ $ ./download.sh
 $ python ./unzip.py
 $ cd ..
 ```
+
+## Synthdog Dataset Download
+https://github.com/clovaai/donut
+(Firstly, download synthdog folder in above link)
+$ pip install synthtiger
+$ synthtiger -o {dataset_path} -c 20000 -w 0 -v template.py SynthDoG config_ko.yaml
