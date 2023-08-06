@@ -29,7 +29,7 @@
     - HandWritten Type : 92.6%
   - Levenshtein : 92.7%
 - BERT
-  - Accuracy: 83%
+  - Accuracy: 95%
 
 ## Model Building Process
 ![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/1625d2a8-83b6-4ab3-9d32-d8f4171e72cf)
