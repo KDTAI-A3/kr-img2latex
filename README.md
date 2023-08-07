@@ -18,10 +18,10 @@
     <br>
 
 
-**DONUT FINE-TUNED MODEL**
+## **DONUT FINE-TUNED MODEL**
 ![웹 캡처_27-7-2023_23146_](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/32bf89d0-98ff-4646-aa9b-7f74e862863a)
 
-**BERT FINE-TUNED MODEL**
+## **BERT FINE-TUNED MODEL**
 ![image](https://github.com/KDTAI-A3/kr-img2latex/assets/81287077/078accc2-a085-429b-abd3-84be864c960b)
 
 
