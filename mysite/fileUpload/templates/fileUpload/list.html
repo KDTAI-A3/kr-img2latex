@@ -63,6 +63,17 @@
         function openModal2() {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
+            $ajax({
+                url:"getGPTText",
+                type:'GET',
+                dataType:"json",
+                data:{"id":id},
+                success:function(data){
+                    var modal=document.getElementById('modal');
+                    var jsondata=JSON.parse(data);
+                    modal.textContent=jsondata.value;
+                }
+            })
         }
 
         function closeModal() {
