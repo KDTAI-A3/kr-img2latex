@@ -25,6 +25,7 @@ class UploadToPathAndRename(object):
         # return the whole path to the file
         return os.path.join(self.sub_path, filename)
 
+SUMMARY_LENGTH = 20
 
 class ImageModel(models.Model):
     files = models.ImageField('첨부 파일', 
@@ -40,16 +41,18 @@ class ImageModel(models.Model):
     classified_level = models.CharField(max_length=512,default="Not classified",)
     chatgpt_result = models.CharField(max_length=4096, default="Not done",)
     is_chatgpt_analyzed = models.BooleanField(default=False)
+    @property
     def summaried_text_content(self):
         retval = self.extracted_texts
-        if len(retval) < 20:
+        if len(retval) < SUMMARY_LENGTH:
             return retval
-        return retval[:20]+"..."
+        return retval[:SUMMARY_LENGTH]+"..."
+    @property
     def summaried_text_gpt(self):
         retval = self.chatgpt_result
-        if len(retval) < 20:
+        if len(retval) < SUMMARY_LENGTH:
             return retval
-        return retval[:20]+"..."
+        return retval[:SUMMARY_LENGTH]+"..."
 
 
 class CreditModel(models.Model):
