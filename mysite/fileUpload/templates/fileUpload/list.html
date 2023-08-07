@@ -154,30 +154,35 @@
             </tbody>
         </table>
     <div class="pagination">
-        <span class="step-links">
+        <nav>
+            <ul>
             {% if page_obj.has_previous %}
             <li>
                 <a href="?page={{ page_obj.previous_page_number }}">&larr;</a>
             </li>
             {% endif %}
+            </ul>
+            <ul>
             {% for index in pagelist %}
                 {% if index == page_obj.number %}
-                <li><span class="current">
+                <li class="current">
                     {{ index }}
-                </span></li>
+                </li>
                 {% else %}
                 <li>
                     <a class="page-link" href="?page={{ index }}">{{ index }}</a>
                 </li>
                 {% endif %}
             {% endfor %}
+            </ul>
+            <ul>
             {% if page_obj.has_next %}
             <li>
                 <a href="?page={{ page_obj.next_page_number }}">&rarr;</a>
             </li>
             {% endif %}
-            
-        </span>
+            </ul>
+        </nav>
         <p>페이지 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.</p>
     </div>
 
