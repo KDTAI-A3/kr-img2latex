@@ -75,34 +75,33 @@
         }
 </style>
 <body style="text-align: center;">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function openModal1(id) {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
-            $ajax({
+            $.ajax({
                 url:"getLatexText",
                 type:'GET',
                 dataType:"json",
                 data:{"id":id},
                 success:function(data){
-                    var modal=document.getElementById('modal');
-                    var jsondata=JSON.parse(data);
-                    modal.textContent=jsondata.value;
+                    var modal=document.getElementById('server-data');
+                    modal.textContent=data.value;
                 }
             })
         }
         function openModal2(id) {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
-            $ajax({
+            $.ajax({
                 url:"getGPTText",
                 type:'GET',
                 dataType:"json",
                 data:{"id":id},
                 success:function(data){
-                    var modal=document.getElementById('modal');
-                    var jsondata=JSON.parse(data);
-                    modal.textContent=jsondata.value;
+                    var modal=document.getElementById('server-data');
+                    modal.textContent=data.value;
                 }
             })
         }
@@ -143,11 +142,11 @@
               <th scope="row"><a href="show/{{ fileImg.id }}">{{ fileImg.id }}</a></th>
               <td>{{ fileImg.desc }}</td>
               <td>{{ fileImg.create_time }}</td>
-              <td id="1">{{ fileImg.summaried_text_content}}
-                <button onclick="openModal1('1')">코드 전체보기</button>
+              <td id="code{{ fileImg.id }}">{{ fileImg.summaried_text_content}}
+                <button onclick="openModal1({{ fileImg.id }})">코드 전체보기</button>
             </td>
               <td>{{ fileImg.classified_level }}</td>
-              <td>{{ fileImg.summaried_text_gpt}}
+              <td id="gpt{{ fileImg.id }}">{{ fileImg.summaried_text_gpt}}
                 <button onclick="openModal2({{ fileImg.id }})">생성결과 전체보기</button>
               </td>
             </tr>
