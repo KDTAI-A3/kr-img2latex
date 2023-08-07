@@ -4,7 +4,7 @@
     </a>
 <div align="center">
     <a href="https://github.com/KDTAI-A3/kr-img2latex">
-          <img width="600" height="350" src="https://github.com/KDTAI-A3/kr-img2latex/assets/79557712/5e94ab89-09ec-4349-8123-9d5fede48f08">
+          <img width="600" height="350" src="https://github.com/KDTAI-A3/kr-img2latex/assets/79557712/c36352d6-04d7-4bb9-9589-9e167cae0bcd">
     </a>
     <br>
     <h1>KR-IMG2LATEX</h1>
