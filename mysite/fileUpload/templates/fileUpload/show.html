@@ -6,12 +6,22 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <link rel="icon" href="C:\Users\nameh\Downloads\favicon_io\favicon.ico" type="image/x-icon">
-    <script type="text/x-mathjax-config">
-        MAthJax.Hub.Config({
-          tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}
-        });
-      </script>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+	<script type="text/x-mathjax-config">
+	   MathJax.Hub.Config({
+		 extensions: ["tex2jax.js"],
+		 jax: ["input/TeX", "output/HTML-CSS"],
+		 tex2jax: {
+		   inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+		   displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+		   processEscapes: true
+		 },
+		 "HTML-CSS": { availableFonts: ["TeX"] }
+	   });
+	</script>
 </head>
 <style>
      body {
@@ -53,7 +63,7 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        margin-right:50px;
+        
     }
     img{
         width:295px;
@@ -99,6 +109,7 @@
         </div>
         <div class="RightSideContents" style="flex:1;">
             <h4>수식 추출</h4>
+            <h5>$x=10$</h5>
             <input type="text" value="{{fileImg.extracted_texts}}">
             <h4>등급</h4>
             <input type="text" value="{{fileImg.classified_level}}" readonly><!--value: -->

@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
 <style>
+    .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        }
+
+        /* Style for the modal content */
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            max-width: 80%; /* Adjust this to control the width of the popup */
+        }
     .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
         display: flex;
         flex-direction: column; 
@@ -42,6 +64,15 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .popupModal{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        }
 </style>
 <body style="text-align: center;">
     <script>
@@ -60,7 +91,7 @@
                 }
             })
         }
-        function openModal2() {
+        function openModal2(id) {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
             $ajax({
@@ -81,6 +112,12 @@
             modal.style.display = 'none';
         }
     </script>
+    <div class="popupModal" id="modal">
+		<div class="ModalContent1" id="modalContent1">
+            <p id="server-data"></p>
+            <button onclick="closeModal()">Close</button>
+		</div>
+	</div>
     <div class="button-container">
         <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
     </div>
@@ -106,12 +143,12 @@
               <th scope="row"><a href="show/{{ fileImg.id }}">{{ fileImg.id }}</a></th>
               <td>{{ fileImg.desc }}</td>
               <td>{{ fileImg.create_time }}</td>
-              <td>{{ fileImg.extracted_texts }}
-                <button onclick="openModal1()">코드 전체보기</button>
+              <td>{{ fileImg.summaried_text_content()}}
+                <button onclick="openModal1({{ fileImg.id }})">코드 전체보기</button>
             </td>
               <td>{{ fileImg.classified_level }}</td>
-              <td>{{ fileImg.chatgpt_result}}
-                <button onclick="openModal2()">생성결과 전체보기</button>
+              <td>{{ fileImg.summaried_text_gpt()}}
+                <button onclick="openModal2({{ fileImg.id }})">생성결과 전체보기</button>
               </td>
             </tr>
     {% endfor %}
