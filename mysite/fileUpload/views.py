@@ -69,7 +69,17 @@ class DocumentShowView(DetailView):
 
 class DocumentListView(LoginRequiredMixin, ListView):
     model = ImageModel
-    paginate_by = 3
+    paginate_by = 10
+    def get_context_data(self, **kwargs):
+        context = super(DocumentListView, self).get_context_data()
+        
+        page = context['page_obj']
+        paginator = page.paginator
+        pagelist = paginator.get_elided_page_range(page.number, on_each_side=3, on_ends=0)
+        context['pagelist'] = pagelist
+         
+        return context
+    
     def get_queryset(self):
         return ImageModel.objects.filter(author = self.request.user)
     context_object_name = "imgList"

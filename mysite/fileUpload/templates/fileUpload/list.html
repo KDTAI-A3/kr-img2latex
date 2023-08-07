@@ -137,7 +137,7 @@
             </tr>
           </thead>
           <tbody>
-    {% for fileImg in imgList %}
+    {% for fileImg in page_obj %}
             <tr>
               <th scope="row"><a href="show/{{ fileImg.id }}">{{ fileImg.id }}</a></th>
               <td>{{ fileImg.desc }}</td>
@@ -151,6 +151,36 @@
               </td>
             </tr>
     {% endfor %}
+            </tbody>
+        </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}">&larr;</a>
+            </li>
+            {% endif %}
+            {% for index in pagelist %}
+                {% if index == page_obj.number %}
+                <li><span class="current">
+                    {{ index }}
+                </span></li>
+                {% else %}
+                <li>
+                    <a class="page-link" href="?page={{ index }}">{{ index }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}">&rarr;</a>
+            </li>
+            {% endif %}
+            
+        </span>
+        <p>페이지 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.</p>
+    </div>
+
 {% else %}
     <div>
         <h2>요청 기록이 없습니다.</h2>

@@ -41,6 +41,9 @@ class ImageModel(models.Model):
     classified_level = models.CharField(max_length=512,default="Not classified",)
     chatgpt_result = models.CharField(max_length=4096, default="Not done",)
     is_chatgpt_analyzed = models.BooleanField(default=False)
+
+
+    ordering = ["id"]
     @property
     def summaried_text_content(self):
         retval = self.extracted_texts
