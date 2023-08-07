@@ -19,7 +19,7 @@
         }
 
         /* Style for the modal content */
-        .modal-content {
+        .modal-content1 {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -113,7 +113,7 @@
         }
     </script>
     <div class="popupModal" id="modal">
-		<div class="ModalContent1" id="modalContent1">
+		<div class="modal-content1" id="modalContent1">
             <p id="server-data"></p>
             <button onclick="closeModal()">Close</button>
 		</div>
@@ -143,11 +143,11 @@
               <th scope="row"><a href="show/{{ fileImg.id }}">{{ fileImg.id }}</a></th>
               <td>{{ fileImg.desc }}</td>
               <td>{{ fileImg.create_time }}</td>
-              <td>{{ fileImg.summaried_text_content()}}
-                <button onclick="openModal1({{ fileImg.id }})">코드 전체보기</button>
+              <td id="1">{{ fileImg.summaried_text_content}}
+                <button onclick="openModal1('1')">코드 전체보기</button>
             </td>
               <td>{{ fileImg.classified_level }}</td>
-              <td>{{ fileImg.summaried_text_gpt()}}
+              <td>{{ fileImg.summaried_text_gpt}}
                 <button onclick="openModal2({{ fileImg.id }})">생성결과 전체보기</button>
               </td>
             </tr>
