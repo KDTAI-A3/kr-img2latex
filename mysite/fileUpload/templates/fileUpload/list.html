@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload and Text Generation</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
 <style>
     .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
@@ -44,9 +45,20 @@
 </style>
 <body style="text-align: center;">
     <script>
-        function openModal1() {
+        function openModal1(id) {
             var modal = document.getElementById('modal');
             modal.style.display = 'block';
+            $ajax({
+                url:"getLatexText",
+                type:'GET',
+                dataType:"json",
+                data:{"id":id},
+                success:function(data){
+                    var modal=document.getElementById('modal');
+                    var jsondata=JSON.parse(data);
+                    modal.textContent=jsondata.value;
+                }
+            })
         }
         function openModal2() {
             var modal = document.getElementById('modal');

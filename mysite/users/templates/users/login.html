@@ -30,6 +30,7 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="icon" href="C:\Users\nameh\Downloads\favicon_io\favicon.ico" type="image/x-icon">
 </head>
 <style>
     h1{
@@ -62,5 +63,12 @@
             </a>
         </form>
     </main>
+    <script>
+        document.getElementById("login-btn").addEventListener("click",function(event){
+            event.preventDefault();
+            //login 검증? >> login 성공 조건에 맞으면 loginSuccess.html 페이지로 가게끔 검증하는 조건이없다?
+            window.location.href="loginSuccess.html";
+        });
+    </script>
 </body>
 </html>

@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="icon" href="C:\Users\nameh\Downloads\favicon_io\favicon.ico" type="image/x-icon">
+    <script type="text/x-mathjax-config">
+        MAthJax.Hub.Config({
+          tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}
+        });
+      </script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 </head>
 <style>
      body {
@@ -20,10 +27,13 @@
         border: 5px solid gold;
         background-size: contain; /* try other properties here like cover, contain, etc */
         background-repeat: no-repeat;
+        margin:0 auto;
         background-position: 50% 50%;
       }
       .container{
         display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .button-container {
             position: absolute;
@@ -44,6 +54,11 @@
         border-radius: 5px;
         cursor: pointer;
         margin-right:50px;
+    }
+    img{
+        width:295px;
+        height:240px;
+        object-fit: contain;
     }
 
 </style>
@@ -88,7 +103,7 @@
             <h4>등급</h4>
             <input type="text" value="{{fileImg.classified_level}}" readonly><!--value: -->
             <h4>수식 설명</h4>
-            <input type="text" value="{{fileImg.chatgpt_result}}" readonly>
+            <textarea readonly style="text-align: center;"> {{fileImg.chatgpt_result}}</textarea>
         </div>
     </div>
 
