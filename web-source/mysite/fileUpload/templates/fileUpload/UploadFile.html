@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Text Generation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <script type="text/x-mathjax-config">
+        MAthJax.Hub.Config({
+          tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]}
+        });
+      </script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+</head>
+<style>
+    .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        justify-content: center; 
+    }
+    .centered-form div{
+        display: block;
+        max-width: fit-content;
+        max-height: fit-content;
+    }
+    body {
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Optional styling for the button */
+        .button-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: solid;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+</style>
+<body style="text-align: center;">
+    <div class="button-container">
+        <p>유저:{{ user.get_username }}
+            <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+        </p>
+    </div>
+        <br><br><br><br>
+    <div class="centered-form">
+        <div>latex가 포함된 text로 변환할 이미지를 업로드해 주세요.</div>
+        <br><br>
+        <div class="container">
+            <form action="./upload" method="post" enctype="multipart/form-data">
+                {% csrf_token %} 
+                {{ form }}
+                <button type="button submit" id="upload-btn" class="blank" id="su" position="absolute">제출</button>
+        
+
+            </form>
+        </div>
+    </div>
+   
+    <div>
+        <h2>
+            <a href = "{% url 'fileUpload:list' %}">요청 기록</a>
+        </h2>
+    </div>
+    
+</body>
+</html>

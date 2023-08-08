@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+</head>
+<style>
+    h1{
+        text-align: center;
+    }
+    .centered-form {    /* form 내의 요소들을 가운데로 정렬하기 위한 부분. display: flex >> */
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+    }
+</style>
+<body>
+    <main class="centered-form">
+        <h1>Login</h1>
+        
+        <form method="post" action="{% url 'users:login' %}" >
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"
+                value="{{ form.username.value|default_if_none:'' }}"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"
+                value="{{ form.password.value|default_if_none:'' }}"><br>
+
+            <button type="submit" class="blank" id="li" position="absolute">Log in</button>
+        
+            <a href="{% url 'users:signup' %}"><button type="button" class="blank" id="su" position="absolute">Sign up</button>
+            </a>
+        </form>
+    </main>
+    <script>
+        document.getElementById("login-btn").addEventListener("click",function(event){
+            event.preventDefault();
+            //login 검증? >> login 성공 조건에 맞으면 loginSuccess.html 페이지로 가게끔 검증하는 조건이없다?
+            window.location.href="loginSuccess.html";
+        });
+    </script>
+</body>
+</html>
