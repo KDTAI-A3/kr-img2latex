@@ -118,8 +118,16 @@
             <button onclick="closeModal()">Close</button>
 		</div>
 	</div>
-    <div class="button-container">
-        <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+    <div class="button-container" id="lgobtn">
+        {% if user.id is None %}
+        
+            <a href="{% url 'users:login' %}"><button type="button" position="absolute" id="lgoutbtn">Login</button></a>
+        
+        {%else%}
+        <p>유저:{{ user.get_username }}
+        <a href="{% url 'users:logout' %}"><button type="button" position="absolute" id="lgoutbtn">Logout</button></a>
+        </p>
+        {%endif%}
     </div>
 {% if imgList %}
     <div>

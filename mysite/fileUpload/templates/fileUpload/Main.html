@@ -49,7 +49,9 @@
 <body>
     <form class="centered-form">
         <div class="button-container">
-            <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+            <p>유저:{{ user.get_username }}
+                <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+            </p>
         </div>
         <br><br><br><br><br>
         <main id="info" class="container"> 수식 공식이 포함된 이미지를 LATEX 문법 text로 바꿔 주는 웹 사이트입니다.</main>

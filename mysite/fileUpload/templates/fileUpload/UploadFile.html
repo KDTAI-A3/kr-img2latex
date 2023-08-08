@@ -54,7 +54,9 @@
 </style>
 <body style="text-align: center;">
     <div class="button-container">
-        <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+        <p>유저:{{ user.get_username }}
+            <a href="{% url 'users:logout' %}"><button type="button">Logout</button></a>
+        </p>
     </div>
         <br><br><br><br>
     <div class="centered-form">

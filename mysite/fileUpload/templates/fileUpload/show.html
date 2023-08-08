@@ -83,9 +83,11 @@
     <!--추출 버튼 >> 수식 정보 추가 & 추출 버튼 자리에 등급, 수식 설명 버튼-->
     <div class="button-container" id="lgobtn">
         {% if user.id is None %}
-        <a href="{% url 'users:login' %}"><button type="button" position="absolute" id="lgoutbtn">Login</button></a>
+            <a href="{% url 'users:login' %}"><button type="button" position="absolute" id="lgoutbtn">Login</button></a>
         {%else%}
-        <a href="{% url 'users:logout' %}"><button type="button" position="absolute" id="lgoutbtn">Logout</button></a>
+            <p>유저:{{ user.get_username }}
+            <a href="{% url 'users:logout' %}"><button type="button" position="absolute" id="lgoutbtn">Logout</button></a>
+        </p>
         {%endif%}
     </div>
     <br><br><br><br>
